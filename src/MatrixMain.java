@@ -8,7 +8,7 @@ import java.util.HashMap;
 class Matrix
 {
     ArrayList<HashMap<Integer,Integer>> rows= new ArrayList<>();
-    ArrayList<HashMap<Integer,Integer>> transrow= new ArrayList<>();
+  //  ArrayList<HashMap<Integer,Integer>> transrow= new ArrayList<>();
     final int N;
 
     Matrix(int n)
@@ -46,7 +46,33 @@ class Matrix
 
     public static Matrix multiply(Matrix first,Matrix second)
     {
-        return null;
+        Matrix secondTrans = second.transponate();
+        int N = first.N;
+        Matrix resultMatrix = new Matrix(N);
+        for(int i = 0;i<N;i++)
+        {
+            if(first.rows.get(i).size()==0)
+                continue;
+            for (int b = 0; b<N;b++)
+            {
+                if(secondTrans.rows.get(b).size()==0)
+                    continue;
+                resultMatrix.put(i,b,vectorMultiply(first.rows.get(i),secondTrans.rows.get(b)));
+            }
+        }
+        return resultMatrix;
+    }
+
+    public static int vectorMultiply(HashMap<Integer, Integer> first,HashMap<Integer, Integer> second)
+    {
+        int i = 0;
+        for(Integer column: first.keySet())
+        {
+            if(second.get(column)==null)
+                continue;
+            i += first.get(column) * second.get(column);
+        }
+        return i;
     }
 
     Matrix transponate()
@@ -64,13 +90,16 @@ class Matrix
 public class MatrixMain
 {
     public static void main(String... args) throws InterruptedException {
-        Matrix matrix = new Matrix(1000000);
+        Matrix matrix = new Matrix(3);
         matrix.put(0, 2, 1);
         matrix.put(0, 1, 3);
         matrix.put(1, 2, 6);
-      //  matrix.print();
+        matrix.print();
         Matrix trans = matrix.transponate();
-      //  trans.print();
+        trans.print();
+
+        Matrix result = Matrix.multiply(matrix, trans);
+        result.print();
 
     }
 }
