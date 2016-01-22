@@ -8,7 +8,7 @@ import java.util.HashMap;
 class Matrix
 {
     ArrayList<HashMap<Integer,Integer>> rows= new ArrayList<>();
-
+    ArrayList<HashMap<Integer,Integer>> transrow= new ArrayList<>();
     final int N;
 
     Matrix(int n)
@@ -25,6 +25,7 @@ class Matrix
     void put(int row, int column, Object value)
     {
         rows.get(row).put(column, (Integer) value);
+      //  transrow.get(column).put(row, (Integer) value);
     }
 
     Object get(int row, int column)
@@ -52,8 +53,8 @@ class Matrix
     {
         Matrix trans = new Matrix(N);
         for (int rowindex = 0; rowindex < N; rowindex++) {
-            for (int colindex = 0; colindex < rows.get(rowindex).size(); colindex++) {
-                trans.put(colindex, rowindex, rows.get(rowindex).get(colindex));
+            for (Integer colindex: rows.get(rowindex).keySet()) {
+                    trans.put(colindex, rowindex, rows.get(rowindex).get(colindex));
             }
         }
         return trans;
@@ -63,11 +64,14 @@ class Matrix
 public class MatrixMain
 {
     public static void main(String... args) throws InterruptedException {
-        Matrix matrix = new Matrix(100000);
+        Matrix matrix = new Matrix(1000000);
         matrix.put(0, 2, 1);
-
+        matrix.put(0, 1, 3);
+        matrix.put(1, 2, 6);
+      //  matrix.print();
         Matrix trans = matrix.transponate();
-        Thread.sleep(100000);
+      //  trans.print();
+
     }
 }
 
