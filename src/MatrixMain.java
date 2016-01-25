@@ -26,20 +26,21 @@ public class MatrixMain
         result.print();
         */
 
-/*
-        SparseMatrixImpl mtrx = generate(20000);
+
+        SparseMatrixImpl mtrx = generate(100,1000);
         SparseMartixSupportImpl support= new SparseMartixSupportImpl();
-     //   mtrx.print();
+   //     mtrx.print();
         SparseMatrixImpl matrix2 = support.fromStream(support.toStream(mtrx));
-      //  matrix2.print();
+        support.multiply(mtrx,matrix2).print();
 
-*/
 
+/*
         SparseMatrixSupport<SparseMatrixImpl> support = new SparseMartixSupportImpl();
         SparseMatrixImpl mtrx1 = (SparseMatrixImpl) generate(1000000,1000);
         SparseMatrixImpl mtrx2 = (SparseMatrixImpl) generate(1000000,1000);
         SparseMatrixImpl res = support.multiply(mtrx1,mtrx2);
         System.out.println(res.getNotNullElementsCount());
+        */
       //  mtrx1.print();
       //  mtrx2.print();
       //  res.print();
@@ -58,7 +59,7 @@ public class MatrixMain
    //     System.out.println(support.fromStream(support.toStream(mtrx1)));
     }
 
-    static SparseMatrixImpl generate(int n, int z)
+    static SparseMatrixImpl generate(int n, int maxNotNullElements)
     {
         try {
             Thread.sleep(5);
@@ -67,9 +68,9 @@ public class MatrixMain
         }
         SparseMatrixImpl matrix = new SparseMatrixImpl(n);
         Random random = new Random(System.currentTimeMillis());
-        for(int i = 0; i < z; i++)
+        for(int i = 0; i < maxNotNullElements; i++)
         {
-            matrix.put(random.nextInt(n),random.nextInt(n),random.nextInt(n) + 1);
+            matrix.put(random.nextInt(n),random.nextInt(n),random.nextInt(1000));
         }
         System.out.println("Generation complete");
         return matrix;

@@ -1,30 +1,43 @@
 import java.util.*;
-import java.util.stream.Stream;
 
-class SparseMatrixImpl {
-    final private List<Map<Integer,Integer>> rows;
-    final private int N;
+class SparseMatrixImpl implements Iterable<Integer>{
+    private List<Map<Integer,Integer>> rows;
+    private int N;
 
     SparseMatrixImpl(int n)
     {
         if(n < 1)
             throw new RuntimeException("Matrix size must be greater than 0");
         N = n;
+
         rows = new ArrayList<>(N);
         int i = 0;
         while(i < N)
         {
-            rows.add(new HashMap<Integer, Integer>());
+            rows.add(new HashMap<>());
             i++;
         }
     }
 
     public void put(int row, int column, Integer value)
     {
-        if(value != null && value != 0)
+        if(value != null && value != 0) {
             rows.get(row).put(column, value);
+        }
     }
-
+/*
+    public void push(Integer value)
+    {
+        if(validForPush && currentColumn < N && currentRow < N) {
+            if(currentColumn == N - 1) {
+                put(currentRow++, currentColumn, value);
+                currentColumn = 0;
+            }
+            else
+                put (currentRow, currentColumn++, value);
+        }
+    }
+*/
     public Integer get(int row, int column)
     {
         return rows.get(row).get(column);
@@ -102,6 +115,37 @@ class SparseMatrixImpl {
         }
         return trans;
     }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return new Iterator<Integer>() {
+            private int request = 0;
+            private int currentRow = 0;
+            private int currentColumn = 0;
+
+            @Override
+            public boolean hasNext() {
+                request++;
+   //             System.out.println(currentColumn + " " + currentRow);
+                return currentRow < N && currentColumn < N;
+            }
+
+            @Override
+            public Integer next() {
+                if (request < 3)
+                    return N;
+                if(currentColumn == N-1) {
+                    Integer res = get(currentRow++, currentColumn);
+                    currentColumn = 0;
+                    return res;
+                }
+                else
+                    return get(currentRow,currentColumn++);
+            }
+
+        };
+    }
+
 }
 
 
