@@ -18,14 +18,14 @@ public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrix
     public SparseMatrixImpl fromStream(Stream<Integer> stream) {
 
         final SparseMatrixImpl[] matrix = {null};
-        final Integer[] request = {0};
+        final long[] request = {0};
         stream.forEach(e -> {
             if(request[0]++ < 2) {
                 matrix[0] = new SparseMatrixImpl(e);
             }
             else {
                 if(e!=null)
-                    matrix[0].put((request[0]-3)/matrix[0].getN(),(request[0]-3)%matrix[0].getN(),e);
+                    matrix[0].put((int)(request[0]-3)/matrix[0].getN(),(int)(request[0]-3)%matrix[0].getN(),e);
             }
         });
         return matrix[0];

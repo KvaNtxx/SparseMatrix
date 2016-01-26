@@ -11,10 +11,11 @@ public class SparseMatrixTests
     //    mtrx.print();
     //    mtrx2.print();
     //    result.print();
-        SparseMatrixImpl mtrx3 = generate(20,1000);
+        SparseMatrixImpl mtrx3 = generate(5,10);
         SparseMatrixImpl mtrx4 = support.fromStream(support.toStream(mtrx3));
         mtrx3.print();
         mtrx4.print();
+        support.multiply(mtrx3,mtrx4).print();
 
     }
 
@@ -29,7 +30,7 @@ public class SparseMatrixTests
         Random random = new Random(System.currentTimeMillis());
         for(int i = 0; i < maxNotNullElements; i++)
         {
-            matrix.put(random.nextInt(n),random.nextInt(n),random.nextInt(1000));
+            matrix.put(random.nextInt(n),random.nextInt(n),random.nextInt(10));
         }
         System.out.println("Generation complete");
         return matrix;

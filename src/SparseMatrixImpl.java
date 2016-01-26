@@ -47,7 +47,7 @@ class SparseMatrixImpl implements Iterable<Integer>{
     }
 
     public void print() {
-        System.out.println("the sparse Matrix is ");
+        System.out.println("The sparse matrix is ");
         for (int rowIndex = 0; rowIndex < N; rowIndex++) {
             for (int columnIndex = 0; columnIndex < N; columnIndex++) {
                 System.out.print(get(rowIndex, columnIndex) + "\t");
