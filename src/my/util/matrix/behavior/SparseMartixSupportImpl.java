@@ -8,18 +8,14 @@ import java.util.stream.StreamSupport;
 public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrixImpl> {
     @Override
     public Stream<Integer> toStream(SparseMatrixImpl matrix) {
-
         Iterator<Integer> sourceIterator = matrix.iterator();
-
         Iterable<Integer> iterable = () -> sourceIterator;
         Stream<Integer> targetStream = StreamSupport.stream(iterable.spliterator(), false);
-
         return targetStream;
     }
 
     @Override
     public SparseMatrixImpl fromStream(Stream<Integer> stream) {
-
         final SparseMatrixImpl[] matrix = {null};
         final long[] request = {0};
         stream.forEach(e -> {

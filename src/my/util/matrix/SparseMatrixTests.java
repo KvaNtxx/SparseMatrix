@@ -1,30 +1,30 @@
 package my.util.matrix;
 
 import java.util.Random;
-import my.util.matrix.behavior.*;
+import my.util.matrix.behavior.SparseMartixSupportImpl;
+import my.util.matrix.behavior.SparseMatrixImpl;
 
 public class SparseMatrixTests
 {
     public static void main(String... args) throws Exception {
-        SparseMatrixImpl mtrx = generate(1000000,1000);
-        SparseMatrixImpl mtrx2 = generate(1000000,1000);
+        SparseMatrixImpl mtrx = generateSparseMatrix(1000000, 1000);
+        SparseMatrixImpl mtrx2 = generateSparseMatrix(1000000, 1000);
         SparseMatrixSupport<SparseMatrixImpl> support = new SparseMartixSupportImpl();
         SparseMatrixImpl result = support.multiply(mtrx,mtrx2);
     //    mtrx.print();
     //    mtrx2.print();
     //    result.print();
-        SparseMatrixImpl mtrx3 = generate(5,10);
+        SparseMatrixImpl mtrx3 = generateSparseMatrix(5, 10);
         SparseMatrixImpl mtrx4 = support.fromStream(support.toStream(mtrx3));
         mtrx3.print();
         mtrx4.print();
-        support.multiply(mtrx3,mtrx4).print();
 
     }
 
-    static SparseMatrixImpl generate(int n, int maxNotNullElements)
+    static SparseMatrixImpl generateSparseMatrix(int n, int maxNotNullElements)
     {
         try {
-            Thread.sleep(5);
+            Thread.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

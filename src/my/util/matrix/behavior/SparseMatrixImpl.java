@@ -33,7 +33,6 @@ public class SparseMatrixImpl implements Iterable<Integer>{
     public void delete(int row, int column) {
         checkBoundaries(row, column);
         rows.get(row).remove(column);
-
     }
 
     public int getNotNullElementsCount() {
@@ -95,7 +94,6 @@ public class SparseMatrixImpl implements Iterable<Integer>{
             @Override
             public boolean hasNext() {
                 request++;
-                //             System.out.println(currentColumn + " " + currentRow);
                 return currentRow < N && currentColumn < N;
             }
 
