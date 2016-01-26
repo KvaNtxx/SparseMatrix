@@ -127,5 +127,3 @@ class SparseMatrixImpl implements Iterable<Integer>{
             throw new RuntimeException("Matrix out of bounds");
     }
 }
-
-
