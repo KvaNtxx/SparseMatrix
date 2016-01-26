@@ -1,8 +1,11 @@
+package my.util.matrix.behavior;
+
+import my.util.matrix.SparseMatrixSupport;
 import java.util.Iterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrixImpl>{
+public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrixImpl> {
     @Override
     public Stream<Integer> toStream(SparseMatrixImpl matrix) {
 

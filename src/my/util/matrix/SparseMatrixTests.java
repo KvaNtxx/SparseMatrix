@@ -1,5 +1,7 @@
+package my.util.matrix;
+
 import java.util.Random;
-import java.util.stream.Stream;
+import my.util.matrix.behavior.*;
 
 public class SparseMatrixTests
 {

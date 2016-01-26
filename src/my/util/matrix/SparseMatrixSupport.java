@@ -1,3 +1,5 @@
+package my.util.matrix;
+
 import java.util.stream.Stream;
 
 public interface SparseMatrixSupport<M>{

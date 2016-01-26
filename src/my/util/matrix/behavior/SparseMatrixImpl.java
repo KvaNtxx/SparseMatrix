@@ -1,10 +1,12 @@
+package my.util.matrix.behavior;
+
 import java.util.*;
 
-class SparseMatrixImpl implements Iterable<Integer>{
+public class SparseMatrixImpl implements Iterable<Integer>{
     final private List<Map<Integer,Integer>> rows;
     final private int N;
 
-    SparseMatrixImpl(int n) {
+    public SparseMatrixImpl(int n) {
         if(n < 1)
             throw new RuntimeException("Matrix size must be greater than 0");
         N = n;
