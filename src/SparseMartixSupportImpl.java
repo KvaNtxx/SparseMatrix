@@ -2,7 +2,6 @@ import java.util.Iterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-
 public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrixImpl>{
     @Override
     public Stream<Integer> toStream(SparseMatrixImpl matrix) {
@@ -21,12 +20,10 @@ public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrix
         final SparseMatrixImpl[] matrix = {null};
         final Integer[] request = {0};
         stream.forEach(e -> {
-            if(request[0]++ < 2)
-            {
+            if(request[0]++ < 2) {
                 matrix[0] = new SparseMatrixImpl(e);
             }
-            else
-            {
+            else {
                 if(e!=null)
                     matrix[0].put((request[0]-3)/matrix[0].getN(),(request[0]-3)%matrix[0].getN(),e);
             }
@@ -35,8 +32,7 @@ public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrix
     }
 
     @Override
-    public SparseMatrixImpl multiply(SparseMatrixImpl first, SparseMatrixImpl second)
-    {
+    public SparseMatrixImpl multiply(SparseMatrixImpl first, SparseMatrixImpl second) {
         return first.multiply(second);
     }
 }
