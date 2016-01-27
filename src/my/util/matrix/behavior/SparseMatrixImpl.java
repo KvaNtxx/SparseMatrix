@@ -1,6 +1,8 @@
 package my.util.matrix.behavior;
 
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class SparseMatrixImpl implements Iterable<Integer>{
     final private List<Map<Integer,Integer>> rows;
@@ -10,26 +12,30 @@ public class SparseMatrixImpl implements Iterable<Integer>{
 
     public SparseMatrixImpl(int rowCount,int columnCount) {
         if(rowCount < 1 || columnCount < 1)
-            throw new RuntimeException("Matrix size must be greater than 0");
+            throw new IllegalArgumentException("The number of rows and columns must be greater than 0");
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         rows = new ArrayList<>(rowCount);
         int i = 0;
         while(i < rowCount) {
-            rows.add(new HashMap<>());
+            rows.add(null);
             i++;
         }
     }
 
     public void put(int row, int column, Integer value) {
         checkBoundaries(row, column);
-        if(value != null && value != 0) {
+        if(rows.get(row)==null)
+            rows.set(row, new HashMap<>());
+        if(value != null ) {
             rows.get(row).put(column, value);
         }
     }
 
     public Integer get(int row, int column) {
         checkBoundaries(row, column);
+        if(rows.get(row)==null)
+            return null;
         return rows.get(row).get(column);
     }
 
@@ -41,6 +47,8 @@ public class SparseMatrixImpl implements Iterable<Integer>{
     public int getNotNullElementsCount() {
         int size = 0;
         for(Map row: rows) {
+            if(row == null)
+                continue;
             size += row.size();
         }
         return size;
@@ -50,7 +58,7 @@ public class SparseMatrixImpl implements Iterable<Integer>{
         return rowCount;
     }
 
-    public int getColumnCountCount() {
+    public int getColumnCount() {
         return columnCount;
     }
 
@@ -66,14 +74,15 @@ public class SparseMatrixImpl implements Iterable<Integer>{
 
     public SparseMatrixImpl multiply( SparseMatrixImpl second) {
         if(second.rowCount != columnCount)
-            throw new RuntimeException("Second matrix must be the same size as first");
+            throw new IllegalArgumentException
+                    ("Number of columns of the first matrix must be the same as number of rows of the second matrix");
         SparseMatrixImpl secondTrans = second.getTranspose();
         SparseMatrixImpl resultMatrix = new SparseMatrixImpl(rowCount,second.columnCount);
         for(int rowIndex = 0;rowIndex < rowCount;rowIndex++) {
-            if(rows.get(rowIndex).size() == 0)
+            if(rows.get(rowIndex) == null)
                 continue;
             for (int columnIndex = 0; columnIndex < second.columnCount;columnIndex++) {
-                if(secondTrans.rows.get(columnIndex).size() == 0)
+                if(secondTrans.rows.get(columnIndex) == null)
                     continue;
                 resultMatrix.put(rowIndex, columnIndex, vectorMultiply(rows.get(rowIndex), secondTrans.rows.get(columnIndex)));
             }
@@ -84,6 +93,8 @@ public class SparseMatrixImpl implements Iterable<Integer>{
     public SparseMatrixImpl getTranspose() {
         SparseMatrixImpl trans = new SparseMatrixImpl(columnCount, rowCount);
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            if(rows.get(rowIndex)==null)
+                continue;
             for (Integer colindex: rows.get(rowIndex).keySet()) {
                 trans.put(colindex, rowIndex, rows.get(rowIndex).get(colindex));
             }
@@ -100,15 +111,18 @@ public class SparseMatrixImpl implements Iterable<Integer>{
 
             @Override
             public boolean hasNext() {
-                request++;
+
                 return currentRow < rowCount && currentColumn < rowCount;
             }
 
             @Override
             public Integer next() {
-                if (request < 3)
+                request++;
+                if (request == 1)
                     return rowCount;
-                if(currentColumn == rowCount -1) {
+                if (request == 2)
+                    return  columnCount;
+                if(currentColumn == columnCount -1) {
                     Integer res = get(currentRow++, currentColumn);
                     currentColumn = 0;
                     return res;
@@ -131,6 +145,6 @@ public class SparseMatrixImpl implements Iterable<Integer>{
 
     private void checkBoundaries(int row, int column) {
         if(row < 0 || column < 0 || row >= rowCount || column >= columnCount)
-            throw new RuntimeException("Matrix out of bounds");
+            throw new IndexOutOfBoundsException("Matrix out of bounds");
     }
 }

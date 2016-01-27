@@ -1,25 +1,42 @@
 package my.util.matrix;
 
+import java.util.Iterator;
 import java.util.Random;
-//import my.util.matrix.behavior.SparseMartixSupportImpl;
+import my.util.matrix.behavior.SparseMartixSupportImpl;
 import my.util.matrix.behavior.SparseMatrixImpl;
 
 public class SparseMatrixTests
 {
     public static void main(String... args) throws Exception {
-        SparseMatrixImpl mtrx = generateSparseMatrix(2,3,1000);
-        SparseMatrixImpl mtrx2 = generateSparseMatrix(3,1,1000);
-       // SparseMatrixSupport<SparseMatrixImpl> support = new SparseMartixSupportImpl();
+        /*
+        SparseMatrixImpl mtrx = generateSparseMatrix(5,5,10);
+        SparseMatrixImpl mtrx2 = generateSparseMatrix(5,5,10);
+        SparseMatrixSupport<SparseMatrixImpl> support = new SparseMartixSupportImpl();
         SparseMatrixImpl result = mtrx.multiply(mtrx2);
+
         mtrx.print();
         mtrx2.print();
         result.print();
+        System.out.println(result.getNotNullElementsCount());*/
         /*
-        SparseMatrixImpl mtrx3 = generateSparseMatrix(5, 10);
+        SparseMatrixSupport<SparseMatrixImpl> support = new SparseMartixSupportImpl();
+        SparseMatrixImpl mtrx3 = generateSparseMatrix(5,4, 10);
         SparseMatrixImpl mtrx4 = support.fromStream(support.toStream(mtrx3));
         mtrx3.print();
         mtrx4.print();
 */
+        SparseMatrixImpl mtrx5 = generateSparseMatrix(200000, 200000,100);
+   //     mtrx5.print();
+        SparseMatrixSupport<SparseMatrixImpl> support = new SparseMartixSupportImpl();
+        SparseMatrixImpl mtrx4 = support.fromStream(support.toStream(mtrx5));
+   //     mtrx4.print();
+
+        /*
+        Iterator<Integer> iter = mtrx5.iterator();
+        iter.hasNext();
+        while(iter.hasNext())
+            System.out.print(iter.next() + "\t");
+            */
     }
 
     static SparseMatrixImpl generateSparseMatrix(int rowCount,int columnCount,int maxNotNullElements)
@@ -33,7 +50,7 @@ public class SparseMatrixTests
         Random random = new Random(System.currentTimeMillis());
         for(int i = 0; i < maxNotNullElements; i++)
         {
-            matrix.put(random.nextInt(rowCount),random.nextInt(columnCount),random.nextInt(10));
+            matrix.put(random.nextInt(rowCount),random.nextInt(columnCount),random.nextInt(10)+1);
         }
         System.out.println("Generation complete");
         return matrix;
