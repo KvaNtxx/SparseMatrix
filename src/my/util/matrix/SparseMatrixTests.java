@@ -25,11 +25,11 @@ public class SparseMatrixTests
         mtrx3.print();
         mtrx4.print();
 */
-        SparseMatrixImpl mtrx5 = generateSparseMatrix(200000, 200000,100);
-   //     mtrx5.print();
+        SparseMatrixImpl mtrx5 = generateSparseMatrix(50000, 50000,100);
+//        mtrx5.print();
         SparseMatrixSupport<SparseMatrixImpl> support = new SparseMartixSupportImpl();
         SparseMatrixImpl mtrx4 = support.fromStream(support.toStream(mtrx5));
-   //     mtrx4.print();
+//       mtrx4.print();
 
         /*
         Iterator<Integer> iter = mtrx5.iterator();

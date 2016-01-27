@@ -105,7 +105,7 @@ public class SparseMatrixImpl implements Iterable<Integer>{
     @Override
     public Iterator<Integer> iterator() {
         return new Iterator<Integer>() {
-            private int request = 0;
+            private long request = 0;
             private int currentRow = 0;
             private int currentColumn = 0;
 

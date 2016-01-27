@@ -6,16 +6,16 @@ import java.util.function.Supplier;
 /**
  * Created by n.litvyak on 27.01.2016.
  */
-public class SparseMatrixSuppierConsumer implements Supplier<Integer>{
+public class SparseMatrixSuppier implements Supplier<Integer>{
 
     final private SparseMatrixImpl matrix;
     final private int columnCount;
     final private int rowCount;
-    private int request = 0;
+    private long request = 0;
     private int currentColumn = 0;
     private int currentRow = 0;
 
-    SparseMatrixSuppierConsumer(SparseMatrixImpl matrix)
+    SparseMatrixSuppier(SparseMatrixImpl matrix)
     {
         this.matrix = matrix;
         rowCount = matrix.getRowCount();
