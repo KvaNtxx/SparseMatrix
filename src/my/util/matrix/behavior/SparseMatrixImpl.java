@@ -4,15 +4,18 @@ import java.util.*;
 
 public class SparseMatrixImpl implements Iterable<Integer>{
     final private List<Map<Integer,Integer>> rows;
-    final private int N;
+    final private int rowCount;
+    final private int columnCount;
 
-    public SparseMatrixImpl(int n) {
-        if(n < 1)
+
+    public SparseMatrixImpl(int rowCount,int columnCount) {
+        if(rowCount < 1 || columnCount < 1)
             throw new RuntimeException("Matrix size must be greater than 0");
-        N = n;
-        rows = new ArrayList<>(N);
+        this.rowCount = rowCount;
+        this.columnCount = columnCount;
+        rows = new ArrayList<>(rowCount);
         int i = 0;
-        while(i < N) {
+        while(i < rowCount) {
             rows.add(new HashMap<>());
             i++;
         }
@@ -43,14 +46,18 @@ public class SparseMatrixImpl implements Iterable<Integer>{
         return size;
     }
 
-    public int getN() {
-        return N;
+    public int getRowCount() {
+        return rowCount;
+    }
+
+    public int getColumnCountCount() {
+        return columnCount;
     }
 
     public void print() {
         System.out.println("The sparse matrix is ");
-        for (int rowIndex = 0; rowIndex < N; rowIndex++) {
-            for (int columnIndex = 0; columnIndex < N; columnIndex++) {
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
                 System.out.print(get(rowIndex, columnIndex) + "\t");
             }
             System.out.println();
@@ -58,14 +65,14 @@ public class SparseMatrixImpl implements Iterable<Integer>{
     }
 
     public SparseMatrixImpl multiply( SparseMatrixImpl second) {
-        if(second.N != N)
+        if(second.rowCount != columnCount)
             throw new RuntimeException("Second matrix must be the same size as first");
         SparseMatrixImpl secondTrans = second.getTranspose();
-        SparseMatrixImpl resultMatrix = new SparseMatrixImpl(N);
-        for(int rowIndex = 0;rowIndex < N;rowIndex++) {
+        SparseMatrixImpl resultMatrix = new SparseMatrixImpl(rowCount,second.columnCount);
+        for(int rowIndex = 0;rowIndex < rowCount;rowIndex++) {
             if(rows.get(rowIndex).size() == 0)
                 continue;
-            for (int columnIndex = 0; columnIndex < N;columnIndex++) {
+            for (int columnIndex = 0; columnIndex < second.columnCount;columnIndex++) {
                 if(secondTrans.rows.get(columnIndex).size() == 0)
                     continue;
                 resultMatrix.put(rowIndex, columnIndex, vectorMultiply(rows.get(rowIndex), secondTrans.rows.get(columnIndex)));
@@ -75,8 +82,8 @@ public class SparseMatrixImpl implements Iterable<Integer>{
     }
 
     public SparseMatrixImpl getTranspose() {
-        SparseMatrixImpl trans = new SparseMatrixImpl(N);
-        for (int rowIndex = 0; rowIndex < N; rowIndex++) {
+        SparseMatrixImpl trans = new SparseMatrixImpl(columnCount, rowCount);
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             for (Integer colindex: rows.get(rowIndex).keySet()) {
                 trans.put(colindex, rowIndex, rows.get(rowIndex).get(colindex));
             }
@@ -94,14 +101,14 @@ public class SparseMatrixImpl implements Iterable<Integer>{
             @Override
             public boolean hasNext() {
                 request++;
-                return currentRow < N && currentColumn < N;
+                return currentRow < rowCount && currentColumn < rowCount;
             }
 
             @Override
             public Integer next() {
                 if (request < 3)
-                    return N;
-                if(currentColumn == N-1) {
+                    return rowCount;
+                if(currentColumn == rowCount -1) {
                     Integer res = get(currentRow++, currentColumn);
                     currentColumn = 0;
                     return res;
@@ -123,7 +130,7 @@ public class SparseMatrixImpl implements Iterable<Integer>{
     }
 
     private void checkBoundaries(int row, int column) {
-        if(row < 0 || column < 0 || row >= N || column >= N)
+        if(row < 0 || column < 0 || row >= rowCount || column >= columnCount)
             throw new RuntimeException("Matrix out of bounds");
     }
 }

@@ -1,5 +1,5 @@
 package my.util.matrix.behavior;
-
+/*
 import my.util.matrix.SparseMatrixSupport;
 import java.util.Iterator;
 import java.util.stream.Stream;
@@ -24,7 +24,7 @@ public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrix
             }
             else {
                 if(e!=null)
-                    matrix[0].put((int)(request[0]-3)/matrix[0].getN(),(int)(request[0]-3)%matrix[0].getN(),e);
+                    matrix[0].put((int)(request[0]-3)/matrix[0].getRowCount(),(int)(request[0]-3)%matrix[0].getRowCount(),e);
             }
         });
         return matrix[0];
@@ -35,3 +35,4 @@ public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrix
         return first.multiply(second);
     }
 }
+*/
