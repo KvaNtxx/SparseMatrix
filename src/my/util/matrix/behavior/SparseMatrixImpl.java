@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class SparseMatrixImpl implements Iterable<Integer>{
-    final private List<Map<Integer,Integer>> rows;
+    final private Map<Integer,Map<Integer,Integer>> rows;
     final private int rowCount;
     final private int columnCount;
 
@@ -15,21 +15,21 @@ public class SparseMatrixImpl implements Iterable<Integer>{
             throw new IllegalArgumentException("The number of rows and columns must be greater than 0");
         this.rowCount = rowCount;
         this.columnCount = columnCount;
-        rows = new ArrayList<>(rowCount);
-        int i = 0;
+        rows = new HashMap<>(rowCount);
+/*        int i = 0;
         while(i < rowCount) {
             rows.add(null);
             i++;
-        }
+        }*/
     }
 
     public void put(int row, int column, Integer value) {
+        if(value == null || value == 0)
+            return;
         checkBoundaries(row, column);
-        if(rows.get(row)==null)
-            rows.set(row, new HashMap<>());
-        if(value != null ) {
-            rows.get(row).put(column, value);
-        }
+        if(rows.get(row) == null)
+            rows.put(row,new HashMap<>());
+        rows.get(row).put(column, value);
     }
 
     public Integer get(int row, int column) {
@@ -38,18 +38,16 @@ public class SparseMatrixImpl implements Iterable<Integer>{
             return null;
         return rows.get(row).get(column);
     }
-
+/*
     public void delete(int row, int column) {
         checkBoundaries(row, column);
         rows.get(row).remove(column);
     }
-
+*/
     public int getNotNullElementsCount() {
         int size = 0;
-        for(Map row: rows) {
-            if(row == null)
-                continue;
-            size += row.size();
+        for(Integer row: rows.keySet()) {
+            size += rows.get(row).size();
         }
         return size;
     }
