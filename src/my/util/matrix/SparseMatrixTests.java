@@ -25,8 +25,8 @@ public class SparseMatrixTests
         mtrx3.print();
         mtrx4.print();
 */      long t1 = System.currentTimeMillis();
-        SparseMatrixImpl mtrx4 = generateSparseMatrix(5, 5, 15);
-        SparseMatrixImpl mtrx5 = generateSparseMatrix(5, 2, 15);
+        SparseMatrixImpl mtrx4 = generateSparseMatrix(5, 5, 10);
+        SparseMatrixImpl mtrx5 = generateSparseMatrix(5, 5, 10);
         mtrx4.print();
         mtrx5.print();
         SparseMatrixSupport<SparseMatrixImpl> support = new SparseMartixSupportImpl();
@@ -55,7 +55,7 @@ public class SparseMatrixTests
         Random random = new Random(System.currentTimeMillis());
         for(int i = 0; i < maxNotNullElements; i++)
         {
-            matrix.put(random.nextInt(rowCount),random.nextInt(columnCount),random.nextInt(10)+1);
+            matrix.put(random.nextInt(rowCount),random.nextInt(columnCount),random.nextInt(10));
         }
         System.out.println("Generation complete");
         return matrix;
