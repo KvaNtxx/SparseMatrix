@@ -25,11 +25,15 @@ public class SparseMatrixTests
         mtrx3.print();
         mtrx4.print();
 */      long t1 = System.currentTimeMillis();
-        SparseMatrixImpl mtrx5 = generateSparseMatrix(100000, 100000,100);
-//        mtrx5.print();
+        SparseMatrixImpl mtrx4 = generateSparseMatrix(5, 5, 15);
+        SparseMatrixImpl mtrx5 = generateSparseMatrix(5, 2, 15);
+        mtrx4.print();
+        mtrx5.print();
         SparseMatrixSupport<SparseMatrixImpl> support = new SparseMartixSupportImpl();
-        SparseMatrixImpl mtrx4 = support.fromStream(support.toStream(mtrx5));
-//       mtrx4.print();
+//        SparseMatrixImpl mtrx4 = support.fromStream(support.toStream(mtrx5));
+
+        SparseMatrixImpl mtrx6 = support.multiply(mtrx4, mtrx5);
+        mtrx6.print();
         long t2 = System.currentTimeMillis();
         System.out.println((t2-t1)/1000);
         /*

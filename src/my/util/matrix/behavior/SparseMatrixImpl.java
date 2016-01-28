@@ -76,12 +76,8 @@ public class SparseMatrixImpl implements Iterable<Integer>{
                     ("Number of columns of the first matrix must be the same as number of rows of the second matrix");
         SparseMatrixImpl secondTrans = second.getTranspose();
         SparseMatrixImpl resultMatrix = new SparseMatrixImpl(rowCount,second.columnCount);
-        for(int rowIndex = 0;rowIndex < rowCount;rowIndex++) {
-            if(rows.get(rowIndex) == null)
-                continue;
-            for (int columnIndex = 0; columnIndex < second.columnCount;columnIndex++) {
-                if(secondTrans.rows.get(columnIndex) == null)
-                    continue;
+        for(Integer rowIndex : rows.keySet()) {
+            for (Integer columnIndex:secondTrans.rows.keySet()) {
                 resultMatrix.put(rowIndex, columnIndex, vectorMultiply(rows.get(rowIndex), secondTrans.rows.get(columnIndex)));
             }
         }
@@ -90,11 +86,9 @@ public class SparseMatrixImpl implements Iterable<Integer>{
 
     public SparseMatrixImpl getTranspose() {
         SparseMatrixImpl trans = new SparseMatrixImpl(columnCount, rowCount);
-        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-            if(rows.get(rowIndex)==null)
-                continue;
-            for (Integer colindex: rows.get(rowIndex).keySet()) {
-                trans.put(colindex, rowIndex, rows.get(rowIndex).get(colindex));
+        for (Integer rowIndex: rows.keySet()) {
+            for (Integer columnIndex: rows.get(rowIndex).keySet()) {
+                trans.put(columnIndex, rowIndex, rows.get(rowIndex).get(columnIndex));
             }
         }
         return trans;
