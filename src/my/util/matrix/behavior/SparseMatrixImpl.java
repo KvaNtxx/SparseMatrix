@@ -24,7 +24,7 @@ public class SparseMatrixImpl implements Iterable<Integer>{
     }
 
     public void put(int row, int column, Integer value) {
-        if(value == null || value == 0)
+        if(value == null)
             return;
         checkBoundaries(row, column);
         if(rows.get(row) == null)
@@ -38,12 +38,14 @@ public class SparseMatrixImpl implements Iterable<Integer>{
             return null;
         return rows.get(row).get(column);
     }
-/*
+
     public void delete(int row, int column) {
         checkBoundaries(row, column);
         rows.get(row).remove(column);
+        if(rows.get(row).isEmpty())
+            rows.remove(row);
     }
-*/
+
     public int getNotNullElementsCount() {
         int size = 0;
         for(Integer row: rows.keySet()) {
@@ -125,7 +127,9 @@ public class SparseMatrixImpl implements Iterable<Integer>{
         };
     }
 
-    private int vectorMultiply(Map<Integer, Integer> first,Map<Integer, Integer> second) {
+    private Integer vectorMultiply(Map<Integer, Integer> first,Map<Integer, Integer> second) {
+        if(Collections.disjoint(first.keySet(),second.keySet()))
+            return null;
         int result = 0;
         for(Integer columnIndex: first.keySet()) {
             if(second.get(columnIndex)==null)
