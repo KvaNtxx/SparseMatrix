@@ -16,11 +16,6 @@ public class SparseMatrixImpl implements Iterable<Integer>{
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         rows = new HashMap<>(rowCount);
-/*        int i = 0;
-        while(i < rowCount) {
-            rows.add(null);
-            i++;
-        }*/
     }
 
     public void put(int row, int column, Integer value) {
@@ -41,6 +36,8 @@ public class SparseMatrixImpl implements Iterable<Integer>{
 
     public void delete(int row, int column) {
         checkBoundaries(row, column);
+        if(rows.get(row)==null)
+            return;
         rows.get(row).remove(column);
         if(rows.get(row).isEmpty())
             rows.remove(row);
@@ -105,8 +102,7 @@ public class SparseMatrixImpl implements Iterable<Integer>{
 
             @Override
             public boolean hasNext() {
-
-                return currentRow < rowCount && currentColumn < rowCount;
+                return currentRow < rowCount && currentColumn < columnCount;
             }
 
             @Override
