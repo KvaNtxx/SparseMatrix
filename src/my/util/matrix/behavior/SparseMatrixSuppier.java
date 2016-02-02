@@ -24,7 +24,7 @@ public class SparseMatrixSuppier implements Supplier<Integer>{
 
     @Override
     public Integer get() {
-        Integer res;
+        Integer value;
         request++;
         if(request == 1)
             return rowCount;
@@ -32,12 +32,12 @@ public class SparseMatrixSuppier implements Supplier<Integer>{
             return  columnCount;
 
         if (currentColumn == columnCount - 1) {
-            res = matrix.get(currentRow++, currentColumn);
+            value = matrix.get(currentRow++, currentColumn);
             currentColumn = 0;
         }
         else
-           res = matrix.get(currentRow,currentColumn++);
-        return res;
+           value = matrix.get(currentRow,currentColumn++);
+        return value;
     }
 
 }

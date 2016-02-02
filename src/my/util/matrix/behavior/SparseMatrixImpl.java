@@ -1,6 +1,7 @@
 package my.util.matrix.behavior;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -77,7 +78,11 @@ public class SparseMatrixImpl implements Iterable<Integer>{
         SparseMatrixImpl resultMatrix = new SparseMatrixImpl(rowCount,second.columnCount);
         for(Integer rowIndex : rows.keySet()) {
             for (Integer columnIndex:secondTrans.rows.keySet()) {
-                resultMatrix.put(rowIndex, columnIndex, vectorMultiply(rows.get(rowIndex), secondTrans.rows.get(columnIndex)));
+                try {
+                    resultMatrix.put(rowIndex, columnIndex, vectorMultiply(rows.get(rowIndex), secondTrans.rows.get(columnIndex)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         return resultMatrix;
@@ -139,4 +144,6 @@ public class SparseMatrixImpl implements Iterable<Integer>{
         if(row < 0 || column < 0 || row >= rowCount || column >= columnCount)
             throw new IndexOutOfBoundsException("Matrix out of bounds");
     }
+
+
 }

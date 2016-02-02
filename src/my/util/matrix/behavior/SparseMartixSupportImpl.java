@@ -9,12 +9,11 @@ public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrix
     @Override
     public Stream<Integer> toStream(SparseMatrixImpl matrix) {
         Stream<Integer> targetStream = Stream.generate(new SparseMatrixSuppier(matrix));
-        return targetStream.limit( (long) matrix.getRowCount()*(long) matrix.getColumnCount() + 2L);
+        return targetStream.limit( (long) matrix.getRowCount() * (long) matrix.getColumnCount() + 2L);
     }
 
     @Override
     public SparseMatrixImpl fromStream(Stream<Integer> stream) {
- //       stream.limit(10).forEach(e->System.out.print(e + "\t"));
         final SparseMatrixImpl[] matrix = {null};
         stream.forEach(new Consumer<Integer>() {
             long request = 0;
@@ -23,21 +22,21 @@ public class SparseMartixSupportImpl implements SparseMatrixSupport<SparseMatrix
             int currentColumn = 0;
 
             @Override
-            public void accept(Integer integer) {
+            public void accept(Integer value) {
                 request++;
                 if (request == 1) {
-                    rowCount = integer;
+                    rowCount = value;
                     return;
                 }
                 if (request == 2) {
-                    columnCount = integer;
+                    columnCount = value;
                     return;
                 }
                 if (request == 3) {
                     matrix[0] = new SparseMatrixImpl(rowCount, columnCount);
-                    put(integer);
+                    put(value);
                 } else {
-                    put(integer);
+                    put(value);
                 }
             }
 
